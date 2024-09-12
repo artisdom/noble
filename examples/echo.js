@@ -6,10 +6,17 @@
 // start an interval to write data to the characteristic
 
 // const noble = require('noble');
-const noble = require('..');
+// const noble = require('..');
+const noble = require('@abandonware/noble');
 
-const ECHO_SERVICE_UUID = 'ec00';
-const ECHO_CHARACTERISTIC_UUID = 'ec0e';
+// var device_name = 'REALTRACE'
+// const RFID_CHAR = "ffe1";
+
+// const ECHO_SERVICE_UUID = 'ec00';
+// const ECHO_CHARACTERISTIC_UUID = 'ec0e';
+
+const ECHO_SERVICE_UUID = 'ffe0';
+const ECHO_CHARACTERISTIC_UUID = 'ffe1';
 
 noble.on('stateChange', (state) => {
   if (state === 'poweredOn') {
@@ -79,13 +86,13 @@ function onServicesAndCharacteristicsDiscovered (
   });
 
   // create an interval to send data to the service
-  let count = 0;
-  setInterval(() => {
-    count++;
-    const message = Buffer.from(`hello, ble ${count}`, 'utf-8');
-    console.log(`Sending:  '${message}'`);
-    echoCharacteristic.write(message);
-  }, 2500);
+  // let count = 0;
+  // setInterval(() => {
+  //   count++;
+  //   const message = Buffer.from(`hello, ble ${count}`, 'utf-8');
+  //   console.log(`Sending:  '${message}'`);
+  //   echoCharacteristic.write(message);
+  // }, 2500);
 }
 
 process.on('SIGINT', function () {

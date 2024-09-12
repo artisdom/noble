@@ -1,6 +1,8 @@
-const noble = require('../');
+// const noble = require('../');
+const noble = require('@abandonware/noble');
 
-const peripheralIdOrAddress = process.argv[2].toLowerCase();
+// const peripheralIdOrAddress = process.argv[2].toLowerCase();
+const peripheralIdOrAddress = "ac:67:b2:71:63:6a"
 
 noble.on('stateChange', async (state) => {
   if (state === 'poweredOn') {

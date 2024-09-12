@@ -1,4 +1,5 @@
-const noble = require('../index');
+// const noble = require('../index');
+const noble = require('@abandonware/noble');
 
 noble.on('stateChange', function (state) {
   if (state === 'poweredOn') {

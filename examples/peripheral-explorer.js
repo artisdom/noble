@@ -1,8 +1,10 @@
 /* eslint-disable handle-callback-err */
 const async = require('async');
-const noble = require('../index');
+// const noble = require('../index');
+const noble = require('@abandonware/noble');
 
-const peripheralIdOrAddress = process.argv[2].toLowerCase();
+// const peripheralIdOrAddress = process.argv[2].toLowerCase();
+const peripheralIdOrAddress = "ac:67:b2:71:63:6a"
 
 noble.on('stateChange', function (state) {
   if (state === 'poweredOn') {
@@ -69,7 +71,7 @@ function explore (peripheral) {
       return;
     }
 
-    peripheral.discoverServices([], function (error, services) {
+    peripheral.discoverServices(function (error, services) {
       if (error) {
         console.error(error);
         return;
@@ -84,6 +86,7 @@ function explore (peripheral) {
         function (callback) {
           const service = services[serviceIndex];
           let serviceInfo = service.uuid;
+          console.log(service);
 
           if (service.name) {
             serviceInfo += ` (${service.name})`;

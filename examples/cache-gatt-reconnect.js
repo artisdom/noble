@@ -6,7 +6,8 @@
  * Prints timing information from discovered to connected to reading states.
  */
 
-const noble = require('../index');
+// const noble = require('../index');
+const noble = require('@abandonware/noble');
 const fs = require('fs');
 
 // the sensor value to scan for, number of bits and factor for displaying it

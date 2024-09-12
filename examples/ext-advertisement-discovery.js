@@ -1,4 +1,5 @@
-const noble = require('../with-custom-binding')({ extended: true });
+// const noble = require('../with-custom-binding')({ extended: true });
+const noble = require('@abandonware/noble');
 
 noble.on('stateChange', function (state) {
   if (state === 'poweredOn') {

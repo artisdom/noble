@@ -6,8 +6,13 @@
  * Prints timing information from discovered to connected to reading states.
  */
 
-const noble = require('../index');
+// const noble = require('../index');
+const noble = require('@abandonware/noble');
 const fs = require('fs');
+
+var device_name = 'REALTRACE'
+
+const RFID_CHAR = "ffe1";
 
 // the sensor value to scan for, number of bits and factor for displaying it
 const CHANNEL = process.env.CHANNEL ? process.env.CHANNEL : 'Temperature';
@@ -43,7 +48,7 @@ noble.on('discover', function (peripheral) {
   console.log();
 
   // connect to the first device with a valid name
-  if (peripheral.advertisement.localName) {
+  if (peripheral.advertisement.localName == device_name) {
     console.log(
       `Connecting to  ${peripheral.address} ${peripheral.advertisement.localName}`
     );
@@ -88,7 +93,7 @@ const findServices = function (noble, peripheral) {
     for (const i in services) {
       const service = services[i];
       console.log(`\tservice ${i} : ${JSON.stringify(service)}`);
-      // meta.services[ service.uuid ] = service
+      meta.services[ service.uuid ] = service
     }
   });
 
@@ -131,8 +136,8 @@ const findServices = function (noble, peripheral) {
           const ch = characteristics[j];
           console.log(`\t${service.uuid} chara.\t  ${j} ${ch}`);
 
-          if (ch.name === CHANNEL) {
-            console.log(`found ${CHANNEL} characteristic!`);
+          if (ch.uuid === RFID_CHAR) {
+            console.log(`found ${RFID_CHAR} characteristic!`);
             sensorCharacteristic = ch;
           }
         }
@@ -154,18 +159,19 @@ const findServices = function (noble, peripheral) {
           );
 
           if (sensorCharacteristic) {
-            console.log('Listening for temperature data...');
+            console.log('Listening for RFID data...');
 
             tRead = Date.now();
 
             sensorCharacteristic.on('data', (data) => {
-              if (BITS === 16) {
-                console.log(` new ${CHANNEL} ${data.readUInt16LE() * FACTOR}`);
-              } else if (BITS === 32) {
-                console.log(` new ${CHANNEL} ${data.readUInt32LE() * FACTOR}`);
-              } else {
-                console.log(` Cannot cope with BITS value ${BITS}`);
-              }
+              console.log(` new ${RFID_CHAR} ${data}`);
+              // if (BITS === 16) {
+              //   console.log(` new ${CHANNEL} ${data.readUInt16LE() * FACTOR}`);
+              // } else if (BITS === 32) {
+              //   console.log(` new ${CHANNEL} ${data.readUInt32LE() * FACTOR}`);
+              // } else {
+              //   console.log(` Cannot cope with BITS value ${BITS}`);
+              // }
             });
             sensorCharacteristic.read();
           }
